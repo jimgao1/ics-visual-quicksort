@@ -1,7 +1,7 @@
 package tk.jimgao;
 
-import java.awt.*;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class QuickSortMain {
     public static int[] numbers;
@@ -21,8 +21,10 @@ public class QuickSortMain {
                 swap(i, pIndex);
                 window.barColor[pIndex] = BarGraphWindow.RANGE_COLOR;
                 window.barColor[pIndex + 1] = BarGraphWindow.PIVOT_COLOR;
+                window.redrawBar(pIndex);
+                window.redrawBar(pIndex + 1);
+
                 window.updateBarGraph(numbers);
-                window.drawBarGraph();
                 pIndex++;
             }
         }
@@ -34,32 +36,58 @@ public class QuickSortMain {
 
     public static void quickSort(int left, int right){
         if (left > right) return;
-        System.out.printf("left = %d, right = %d\n", left, right);
 
-        Arrays.fill(window.barColor, BarGraphWindow.DEFAULT_COLOR);
-        for (int i = left; i <= right; i++){
-            window.barColor[i] = BarGraphWindow.RANGE_COLOR;
+        window.setTitle(String.format("left = %d, right = %d", left, right));
+
+        for (int i = 0; i < left; i++){
+            if (window.barColor[i] != BarGraphWindow.DEFAULT_COLOR){
+                window.barColor[i] = BarGraphWindow.DEFAULT_COLOR;
+                window.redrawBar(i);
+            }
         }
-        window.drawBarGraph();
+
+        for (int i = right + 1; i < numbers.length; i++){
+            if (window.barColor[i] != BarGraphWindow.DEFAULT_COLOR){
+                window.barColor[i] = BarGraphWindow.DEFAULT_COLOR;
+                window.redrawBar(i);
+            }
+        }
+
+        for (int i = left; i <= right; i++){
+            if (window.barColor[i] != BarGraphWindow.RANGE_COLOR){
+                window.barColor[i] = BarGraphWindow.RANGE_COLOR;
+                window.redrawBar(i);
+            }
+        }
 
         if (left == right) return;
 
         int pivotIndex = partition(left, right);
         window.updateBarGraph(numbers);
-        window.drawBarGraph();
 
         quickSort(left, pivotIndex - 1);
         quickSort(pivotIndex + 1, right);
     }
 
     public static void main(String[] args){
+        Set<Integer> visited = new HashSet<>();
+
         window = new BarGraphWindow();
-        numbers = new int[25];
-        for (int i = 0; i < 25; i++) numbers[i] = (int)(Math.random() * 50) + 1;
+        numbers = new int[400];
+        for (int i = 0; i < 400; i++) {
+            numbers[i] = (int)(Math.random() * 400) + 1;
+            if (visited.contains(numbers[i])){
+                i--;
+                continue;
+            }
+            visited.add(numbers[i]);
+        }
         window.initBarGraph(numbers);
 
         window.drawBarGraph();
+        quickSort(0, 399);
 
-        quickSort(0, 24);
+        window.initBarGraph(numbers);
+        window.drawBarGraph();
     }
 }
