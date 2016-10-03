@@ -19,6 +19,10 @@ public class QuickSortMain {
         for (int i = left; i <= right - 1; i++){
             if (numbers[i] < pValue){
                 swap(i, pIndex);
+                window.barColor[pIndex] = BarGraphWindow.RANGE_COLOR;
+                window.barColor[pIndex + 1] = BarGraphWindow.PIVOT_COLOR;
+                window.updateBarGraph(numbers);
+                window.drawBarGraph();
                 pIndex++;
             }
         }
@@ -32,9 +36,9 @@ public class QuickSortMain {
         if (left > right) return;
         System.out.printf("left = %d, right = %d\n", left, right);
 
-        Arrays.fill(window.barColor, new Color(93, 173, 226));
+        Arrays.fill(window.barColor, BarGraphWindow.DEFAULT_COLOR);
         for (int i = left; i <= right; i++){
-            window.barColor[i] = new Color(243, 156, 18);
+            window.barColor[i] = BarGraphWindow.RANGE_COLOR;
         }
         window.drawBarGraph();
 
@@ -42,7 +46,6 @@ public class QuickSortMain {
 
         int pivotIndex = partition(left, right);
         window.updateBarGraph(numbers);
-        window.barColor[pivotIndex] = new Color(231, 76, 60);
         window.drawBarGraph();
 
         quickSort(left, pivotIndex - 1);
@@ -51,11 +54,12 @@ public class QuickSortMain {
 
     public static void main(String[] args){
         window = new BarGraphWindow();
-        numbers = new int[]{7, 2, 1, 6, 8, 5, 3, 4};
+        numbers = new int[25];
+        for (int i = 0; i < 25; i++) numbers[i] = (int)(Math.random() * 50) + 1;
         window.initBarGraph(numbers);
 
         window.drawBarGraph();
 
-        quickSort(0, 7);
+        quickSort(0, 24);
     }
 }

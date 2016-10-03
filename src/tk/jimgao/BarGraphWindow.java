@@ -9,7 +9,12 @@ public class BarGraphWindow extends JFrame {
     public static final int Y_BOTTOM_OFFSET = 60;
     public static final double Y_SPACE = 0.05;
 
-    public static final int REDRAW_DELAY = 500;
+    public static final int REDRAW_DELAY = 250;
+
+    public static final Color DEFAULT_COLOR = new Color(93, 173, 226);
+    public static final Color RANGE_COLOR = new Color(243, 156, 18);
+    public static final Color PIVOT_COLOR = new Color(211, 84, 0);
+    public static final Color BORDER_COLOR = new Color(21, 67, 96);
 
     public static boolean DRAW_BORDER = true;
 
@@ -45,7 +50,7 @@ public class BarGraphWindow extends JFrame {
         for (int i = 0; i < values.length; i++){
             barXLeft[i] = prevX;
             barXRight[i] = barXLeft[i] + relWidth;
-            barColor[i] = new Color(93, 173, 226);
+            barColor[i] = BarGraphWindow.DEFAULT_COLOR;
 
             prevX += relWidth + relSpace;
         }
@@ -78,7 +83,7 @@ public class BarGraphWindow extends JFrame {
             g.fillRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
 
             if (DRAW_BORDER){
-                g.setColor(new Color(21, 67, 96));
+                g.setColor(BarGraphWindow.BORDER_COLOR);
                 g.drawRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
             }
 
@@ -91,8 +96,6 @@ public class BarGraphWindow extends JFrame {
             Thread.sleep(REDRAW_DELAY);
         } catch(Exception ex){}
     }
-
-
 
     public void paint(Graphics g){
         drawBarGraph();
