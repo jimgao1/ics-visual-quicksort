@@ -9,7 +9,7 @@ public class BarGraphWindow extends JFrame {
     public static final int Y_BOTTOM_OFFSET = 60;
     public static final double Y_SPACE = 0.05;
 
-    public static boolean DRAW_BORDER = false;
+    public static boolean DRAW_BORDER = true;
 
     public int relWidth, relSpace, relHeight;
     public int[] barXLeft, barXRight, barValues;
@@ -50,9 +50,10 @@ public class BarGraphWindow extends JFrame {
     }
 
     public void drawBarGraph(){
-        Graphics g = this.getGraphics();
+        Graphics2D g = (Graphics2D) this.getGraphics();
 
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
+        g.setStroke(new BasicStroke(3));
 
         for (int i = 0; i < barValues.length; i++){
             int leftCornerX = barXLeft[i];
@@ -61,6 +62,12 @@ public class BarGraphWindow extends JFrame {
 
             g.setColor(barColor[i]);
             g.fillRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
+
+            if (DRAW_BORDER){
+                g.setColor(new Color(21, 67, 96));
+
+                g.drawRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
+            }
 
             g.setColor(Color.BLACK);
             g.setFont(new Font("Consolas", Font.BOLD, 14));
