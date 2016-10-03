@@ -9,7 +9,7 @@ public class BarGraphWindow extends JFrame {
     public static final int Y_BOTTOM_OFFSET = 60;
     public static final double Y_SPACE = 0.05;
 
-    public static final int REDRAW_DELAY = 2000;
+    public static final int REDRAW_DELAY = 500;
 
     public static boolean DRAW_BORDER = true;
 
@@ -79,7 +79,6 @@ public class BarGraphWindow extends JFrame {
 
             if (DRAW_BORDER){
                 g.setColor(new Color(21, 67, 96));
-
                 g.drawRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
             }
 
