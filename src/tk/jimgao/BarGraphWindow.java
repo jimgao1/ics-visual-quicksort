@@ -32,7 +32,7 @@ public class BarGraphWindow extends JFrame {
     public void initBarGraph(int[] values){
         this.relWidth = (int)(this.getWidth() / (values.length * (1 + Y_SPACE * 2)));
         this.relSpace = (int)(relWidth * Y_SPACE);
-        this.relHeight = (int)(this.getHeight() / findMax(values) * (1 - Y_SPACE));
+        this.relHeight = (int)((this.getHeight() - Y_OFFSET - Y_BOTTOM_OFFSET) / findMax(values) * (1 - Y_SPACE));
 
         this.barValues = values.clone();
         this.barXLeft = new int[values.length];
@@ -61,6 +61,10 @@ public class BarGraphWindow extends JFrame {
 
             g.setColor(barColor[i]);
             g.fillRect(leftCornerX, leftCornerY + Y_OFFSET, relWidth, barHeight);
+
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Consolas", Font.BOLD, 14));
+            g.drawString(Integer.toString(barValues[i]), leftCornerX + 10, leftCornerY);
         }
     }
 
@@ -68,17 +72,4 @@ public class BarGraphWindow extends JFrame {
         drawBarGraph();
     }
 
-    public static void main(String[] args) throws Exception{
-        BarGraphWindow window = new BarGraphWindow();
-
-        while(true){
-            int[] nums = new int[8];
-            for (int i = 0; i < 8; i++)
-                nums[i] = (int)(Math.random() * 10) + 1;
-            window.initBarGraph(nums);
-            window.drawBarGraph();
-
-            Thread.sleep(1000);
-        }
-    }
 }
