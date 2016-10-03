@@ -9,6 +9,8 @@ public class BarGraphWindow extends JFrame {
     public static final int Y_BOTTOM_OFFSET = 60;
     public static final double Y_SPACE = 0.05;
 
+    public static final int REDRAW_DELAY = 2000;
+
     public static boolean DRAW_BORDER = true;
 
     public int relWidth, relSpace, relHeight;
@@ -49,7 +51,19 @@ public class BarGraphWindow extends JFrame {
         }
     }
 
-    public void drawBarGraph(){
+    public void updateBarGraph(int[] values){
+        this.relHeight = (int)((this.getHeight() - Y_OFFSET - Y_BOTTOM_OFFSET) / findMax(values) * (1 - Y_SPACE));
+        this.barValues = values.clone();
+        int prevX = relSpace;
+        for (int i = 0; i < values.length; i++){
+            barXLeft[i] = prevX;
+            barXRight[i] = barXLeft[i] + relWidth;
+
+            prevX += relWidth + relSpace;
+        }
+    }
+
+    public synchronized void drawBarGraph(){
         Graphics2D g = (Graphics2D) this.getGraphics();
 
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -73,7 +87,13 @@ public class BarGraphWindow extends JFrame {
             g.setFont(new Font("Consolas", Font.BOLD, 14));
             g.drawString(Integer.toString(barValues[i]), leftCornerX + 10, leftCornerY);
         }
+
+        try {
+            Thread.sleep(REDRAW_DELAY);
+        } catch(Exception ex){}
     }
+
+
 
     public void paint(Graphics g){
         drawBarGraph();
