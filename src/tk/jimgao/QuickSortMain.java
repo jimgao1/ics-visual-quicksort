@@ -75,7 +75,7 @@ public class QuickSortMain {
         window = new BarGraphWindow();
         numbers = new int[400];
         for (int i = 0; i < 400; i++) {
-            numbers[i] = (int)(Math.random() * 400) + 1;
+            numbers[i] = (int)(Math.random() * 401) + 1;
             if (visited.contains(numbers[i])){
                 i--;
                 continue;
@@ -89,5 +89,14 @@ public class QuickSortMain {
 
         window.initBarGraph(numbers);
         window.drawBarGraph();
+//
+//        window = new BarGraphWindow();
+//        numbers = new int[]{4, 5, 1, 2, 7, 8, 6, 3};
+//        window.initBarGraph(numbers);
+//        window.drawBarGraph();
+//
+//        quickSort(0, 7);
+//
+//        window.updateBarGraph(numbers);
     }
 }

@@ -8,8 +8,9 @@ public class BarGraphWindow extends JFrame {
     public static final int Y_OFFSET = 50;
     public static final int Y_BOTTOM_OFFSET = 60;
     public static final int X_SPACE_ABS = 2;
+    public static final int X_OFFSET = 30;
 
-    public static final int REDRAW_DELAY = 50;
+    public static final int REDRAW_DELAY = 20;
 
     public static final Color DEFAULT_COLOR = new Color(93, 173, 226);
     public static final Color RANGE_COLOR = new Color(243, 156, 18);
@@ -19,7 +20,7 @@ public class BarGraphWindow extends JFrame {
     public static boolean DRAW_BORDER = false;
     public static boolean DRAW_NUMBER = false;
 
-    public int relWidth, relSpace, relHeight;
+    public int relWidth, relHeight;
     public int[] barXLeft, barXRight, barValues;
     public Color[] barColor;
 
@@ -38,7 +39,7 @@ public class BarGraphWindow extends JFrame {
     }
 
     public void initBarGraph(int[] values){
-        this.relWidth = (int)((this.getWidth() - values.length) / values.length);
+        this.relWidth = (this.getWidth() - values.length - X_OFFSET) / values.length;
         this.relHeight = (int)((this.getHeight() - Y_OFFSET - Y_BOTTOM_OFFSET) / findMax(values));
 
         this.barValues = values.clone();
@@ -46,10 +47,10 @@ public class BarGraphWindow extends JFrame {
         this.barXRight = new int[values.length];
         this.barColor = new Color[values.length];
 
-        int prevX = relSpace;
+        int prevX = X_SPACE_ABS;
         for (int i = 0; i < values.length; i++){
             barXLeft[i] = prevX;
-            barXRight[i] = barXLeft[i] + relWidth;
+            barXRight[i] = barXLeft[i] + X_SPACE_ABS;
             barColor[i] = BarGraphWindow.DEFAULT_COLOR;
 
             prevX += relWidth + X_SPACE_ABS;
@@ -70,12 +71,12 @@ public class BarGraphWindow extends JFrame {
             this.relHeight = newHeight;
 
             this.barValues = values.clone();
-            int prevX = relSpace;
+            int prevX = X_SPACE_ABS;
             for (int i = 0; i < values.length; i++){
                 barXLeft[i] = prevX;
                 barXRight[i] = barXLeft[i] + relWidth;
 
-                prevX += relWidth + relSpace;
+                prevX += relWidth + X_SPACE_ABS;
             }
         }
 
